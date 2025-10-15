@@ -18,6 +18,7 @@ const elements = {
   list: document.getElementById("prompt-list"),
   search: document.getElementById("search-input"),
   btnNew: document.getElementById("btn-new"),
+  btnCopy: document.getElementById("btn-copy"),
 }
 
 // Atualiza o estado do wrapper editável
@@ -143,8 +144,25 @@ function newPrompt() {
   elements.promptTitle.focus()
 }
 
+function copySelected() {
+  try {
+    const content = elements.promptContent
+
+    if (!navigator.clipboard) {
+      console.error("API de área de transferência não suportada.")
+      return
+    }
+
+    navigator.clipboard.writeText(content.textContent)
+    alert("Conteúdo copiado para a área de transferência!")
+  } catch (error) {
+    console.error("Erro ao copiar para a área de transferência:", error)
+  }
+}
+
 elements.btnSave.addEventListener("click", save)
 elements.btnNew.addEventListener("click", newPrompt)
+elements.btnCopy.addEventListener("click", copySelected)
 elements.search.addEventListener("input", function (event) {
   renderPromptList(event.target.value)
 })
